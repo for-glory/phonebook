@@ -3,12 +3,13 @@ import { gql } from "@apollo/client";
 
 import graphQLClient from "../../../api/graphQLClient";
 
-const useQueryGetContacts = () => {
-  return useQuery("getContacts", async () => {
+const useQueryGetContacts = (query: String) => {
+  return useQuery(["getContacts", query], async ({ queryKey }) => {
+    const [_, query] = queryKey;
     const { data } = await graphQLClient.query({
       query: gql`
-        query Query {
-          contacts {
+        query contacts($query: String) {
+          contacts(query: $query) {
             id
             firstName
             lastName
@@ -16,6 +17,7 @@ const useQueryGetContacts = () => {
           }
         }
       `,
+      variables: { query }
     });
 
     return data.contacts;

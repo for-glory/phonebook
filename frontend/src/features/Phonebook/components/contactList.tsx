@@ -18,6 +18,7 @@ import useMutationDeleteContact from "../hooks/useMutationDeleteContact";
 
 interface IContactListProps {
   onEditContact: (contact: IContact) => void;
+  query: String;
 }
 
 const ContactListContainer = styled(Box)({
@@ -47,11 +48,11 @@ const ContactItem = styled(Box)<any>(({ theme, index }) => ({
   justifyContent: "space-between",
 }));
 
-const ContactList = ({ onEditContact }: IContactListProps) => {
+const ContactList = ({ onEditContact, query }: IContactListProps) => {
   const theme = useTheme();
   const { state, dispatch } = useContext(PhoneBookContext);
 
-  const { data: contacts, isLoading, refetch } = useQueryGetContacts();
+  const { data: contacts, isLoading, refetch } = useQueryGetContacts(query);
   const {
     mutate,
     isSuccess,

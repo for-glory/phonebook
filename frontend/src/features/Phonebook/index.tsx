@@ -4,14 +4,14 @@ import {
   Box,
   Button,
   Typography,
-  // InputAdornment,
-  // TextField,
+  InputAdornment,
+  TextField,
 } from "@mui/material";
-// import { useTheme } from '@mui/material/styles';
+import { useTheme } from '@mui/material/styles';
 import ContactsIcon from "@mui/icons-material/Contacts";
 import { styled } from "@mui/system";
 
-// import SearchIcon from "@mui/icons-material/Search";
+import SearchIcon from "@mui/icons-material/Search";
 
 import { IContact, IAction } from "../../types";
 import { PhoneBookContext } from "../../context/phoneBook";
@@ -59,9 +59,10 @@ const ContactAddSection = styled(Box)(({ theme }) => ({
 
 const Phonebook = () => {
   const [open, setOpen] = useState(false);
+  const [query, setQuery] = useState("");
   const { state, dispatch } = useContext(PhoneBookContext);
   const { selectedContact } = state;
-  // const theme = useTheme();
+  const theme = useTheme();
 
   const {
     mutate: addMutate,
@@ -186,7 +187,7 @@ const Phonebook = () => {
             </Typography>
           </Button>
         </ContactAddSection>
-        {/* <TextField
+        <TextField
           fullWidth
           size="small"
           sx={{
@@ -202,8 +203,9 @@ const Phonebook = () => {
               </InputAdornment>
             ),
           }}
-        /> */}
-        <ContactList onEditContact={onEditContact} />
+          onChange={e => setQuery(e.target.value)}
+        />
+        <ContactList onEditContact={onEditContact} query={query} />
       </PhonebookContent>
     </PhonebookContainer>
   );
